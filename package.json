@@ -5,14 +5,8 @@
   "license": "MIT",
   "author": "E. Hosso",
   "scripts": {
-    "#debug": "node --nolazy --inspect-brk -r ts-node/register src/index.ts",
-    "debug": "node --nolazy --inspect -r ts-node/register src/index.ts",
-    "deploy": "vercel ${PAGE_URL:+-e PAGE_URL} ${GA_TRACKING_ID:+-e GA_TRACKING_ID}",
-    "deploy:prod": "yarn run deploy --prod",
-    "develop": "vercel dev",
-    "fix": "eslint --ext .ts . --fix && prettier --write --loglevel silent \"**/*.{json,md}\" && sort-package-json",
-    "postinstall": "node node_modules/husky/husky.js install",
-    "lint": "eslint --ext .ts ."
+    "run:docx": "node ./src/docx.js",
+    "run:notion": "node ./src/notion.js"
   },
   "husky": {
     "hooks": {
