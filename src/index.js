@@ -1,12 +1,10 @@
-import express from 'express';
-import proxy from 'express-http-proxy';
-import { URL } from 'url';
-import path from 'path';
+const express = require('express');
+const proxy = require('express-http-proxy');
+const { URL } = require('url');
+const path = require('path');
 
-const {
-  PAGE_URL = 'https://notion.notion.site/Notion-Official-83715d7703ee4b8699b5e659a4712dd8',
-  GA_TRACKING_ID,
-} = process.env;
+const PAGE_URL = 'https://css3.notion.site/Personal-Ho2222me-63075321ae664f7fb3d475fe496898c0';
+let GA_TRACKING_ID
 
 const { origin: pageDomain, pathname: pagePath } = new URL(PAGE_URL);
 const pageId = path.basename(pagePath).match(/[^-]*$/);
@@ -76,7 +74,7 @@ app.use(
       if (headers['set-cookie']) {
         // "Domain=notion.site" -> "Domain=mydomain.com"
         // "; Domain=notion.site;' -> '; Domain=mydomain.com;"
-        const domain = (userReq.headers['x-forwarded-host'] as string).replace(
+        const domain = (userReq.headers['x-forwarded-host'])?.replace(
           /:.*/,
           '',
         );
@@ -88,7 +86,7 @@ app.use(
         );
       }
 
-      const csp = headers['content-security-policy'] as string;
+      const csp = headers['content-security-policy'];
       if (csp) {
         headers['content-security-policy'] = csp.replace(
           /(?=(script-src|connect-src) )[^;]*/g,
@@ -123,5 +121,3 @@ if (!process.env.VERCEL_REGION) {
     console.log(`Server running at http://localhost:${port}`),
   );
 }
-
-export default app;
