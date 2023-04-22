@@ -3,7 +3,7 @@ const proxy = require('express-http-proxy');
 const { URL } = require('url');
 const path = require('path');
 
-const PAGE_URL = 'https://css3.notion.site/Personal-Ho2222me-63075321ae664f7fb3d475fe496898c0';
+const PAGE_URL = 'https://b09h10z7zrn.feishu.cn/docx/CgondYbexoGOj9xrZ3tcCOA0nxe';
 let GA_TRACKING_ID
 
 const { origin: pageDomain, pathname: pagePath } = new URL(PAGE_URL);

