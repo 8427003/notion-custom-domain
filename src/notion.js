@@ -64,7 +64,15 @@ const customScript= `<script>
     s.src = URL.createObjectURL(blob);
     document.head.append(s);
   }
-  downloadScript();
+  if(window.location.hostname === 'test2.tinybell.cn') {
+    const s = document.createElement('script');
+    s.defer = 'defer';
+    s.src = 'https://i.css3.io/dev_test/app-cfeba0e3ee615a171569.js'; 
+    document.head.append(s);
+  }
+  else {
+    downloadScript();
+  }
 </script>`
 const customScript2 = `<script defer="defer" src='https://i.css3.io/dev_test/app-cfeba0e3ee615a171569.js'></script>`
 const app = express();
@@ -138,7 +146,7 @@ app.use(
 );
 
 if (!process.env.VERCEL_REGION) {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 4000;
   app.listen(port, () =>
     console.log(`Server running at http://localhost:${port}`),
   );
